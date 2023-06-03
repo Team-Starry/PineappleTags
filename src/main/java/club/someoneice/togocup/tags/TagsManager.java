@@ -43,6 +43,27 @@ public class TagsManager {
     }
 
     /**
+     * Create a new Tag with Entity or other something, take a Tag with class to save.  <br />
+     * 使用生物或别的什么存储时，以Class的形式存储。
+     * */
+    public <E> Tag<Class<? extends E>> registerTagWithClass(String name, @Nullable Class<? extends E> ... items) {
+        if (tags.containsKey(name)) {
+            try {
+                Tag<Class<? extends E>> tag = (Tag<Class<? extends E>>) tags.get(name);
+                if (items != null) tag.addAll(Arrays.asList(items));
+                return tag;
+            } catch (Exception e) {
+                PineappleTags.LOGGER.error("One of mod's Tags " + name + " is broken when create because the type is not same.");
+            }
+        }
+
+        Tag<Class<? extends E>> tag = new Tag<>(name);
+        if (items != null) tag.addAll(Arrays.asList(items));
+        tags.put(name, tag);
+        return tag;
+    }
+
+    /**
      * Create a tag from OreDictionary. There will be no real-time synchronization, and must be restated if they update <br />
      * 从矿物辞典到Tag。从标签到矿物辞典。不会实时同步，若发生更新必须重新申明。
      * @throws TagNotSameFatalException When tag in tag pool with same name but it not an Item's Tag. <br />
