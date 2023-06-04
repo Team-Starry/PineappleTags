@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 public class Tag<E> {
@@ -92,12 +91,12 @@ public class Tag<E> {
 
     @Override
     public int hashCode() {
-        return items.hashCode();
+        return name.hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof Tag)) return false;
-        return new HashSet<>(((Tag<?>) obj).getList()).containsAll(this.getList());
+        return ((Tag<?>) obj).name.equals(this.name);
     }
 }
