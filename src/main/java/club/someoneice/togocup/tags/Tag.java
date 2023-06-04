@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 
 public class Tag<E> {
@@ -19,7 +20,7 @@ public class Tag<E> {
 
     /**
      * Copy a list from tag. <br />
-     * 从Tag复制一套内容。
+     * 从Tag复制内容到列表。
      * */
     public List<E> getList() {
         return Lists.newArrayList(items);
@@ -34,12 +35,35 @@ public class Tag<E> {
     }
 
     /**
-     * Return true when item in this tag. <br />
-     * 当物品在此标签时返回True。
+     * Return true when object in this tag.<br />
+     * 当物件在此标签时返回True。
      * */
     public boolean has(Object item) {
         return item != null && this.items.contains(item);
     }
+
+    /**
+     * Return true when object is assign by someone object in tag. <br />
+     * 当物件是被Tag中某个物件所继承时返回True。
+     */
+    public boolean hasAssignableFrom(Object item) {
+        for (E obj : items)
+            if (obj.getClass().isAssignableFrom(item.getClass())) return true;
+
+        return false;
+    }
+
+    /**
+     * Return true when someone object in tag is assign by object. <br />
+     * 当物件是Tag中某个物件继承时返回True。
+     */
+    public boolean hasAssignableBy(Object item) {
+        for (E obj : items)
+            if (item.getClass().isAssignableFrom(obj.getClass())) return true;
+
+        return false;
+    }
+
 
     public boolean remove(E item) {
         return this.items.remove(item);
@@ -64,5 +88,16 @@ public class Tag<E> {
     @Override
     public String toString() {
         return name;
+    }
+
+    @Override
+    public int hashCode() {
+        return items.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof Tag)) return false;
+        return new HashSet<>(((Tag<?>) obj).getList()).containsAll(this.getList());
     }
 }

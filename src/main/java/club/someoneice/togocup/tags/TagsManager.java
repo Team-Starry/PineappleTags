@@ -5,9 +5,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import scala.actors.threadpool.Arrays;
 
 import javax.annotation.Nullable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -45,11 +45,11 @@ public class TagsManager {
     /**
      * Create a new Tag with Entity or other something, take a Tag with class to save.  <br />
      * 使用生物或别的什么存储时，以Class的形式存储。
-     * */
-    public <E> Tag<Class<? extends E>> registerTagWithClass(String name, @Nullable Class<? extends E> ... items) {
+     */
+    public <T> Tag<Class<? extends T>> registerTagWithClass(String name, @Nullable Class<? extends T> ... items) {
         if (tags.containsKey(name)) {
             try {
-                Tag<Class<? extends E>> tag = (Tag<Class<? extends E>>) tags.get(name);
+                Tag<Class<? extends T>> tag = (Tag<Class<? extends T>>) tags.get(name);
                 if (items != null) tag.addAll(Arrays.asList(items));
                 return tag;
             } catch (Exception e) {
@@ -57,9 +57,10 @@ public class TagsManager {
             }
         }
 
-        Tag<Class<? extends E>> tag = new Tag<>(name);
+        Tag<Class<? extends T>> tag = new Tag<>(name);
         if (items != null) tag.addAll(Arrays.asList(items));
         tags.put(name, tag);
+
         return tag;
     }
 
