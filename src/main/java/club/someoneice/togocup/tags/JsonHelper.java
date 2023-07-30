@@ -12,21 +12,27 @@ import java.util.List;
 
 class JsonHelper {
     static void readFromJson() {
+        PineappleTags.LOGGER.info("PineappleRecipeBook is install! Now click tags form json...");
+
         Gson gson = new Gson();
         for (JarUtil.UrlBuffered buffered : JarUtil.getInstance().getDataSet()) {
             String name = buffered.getFileUrl();
-            if (name.contains(".json") && name.contains("/tag/")) {
+            if (name.contains(".json") && name.contains("tag/")) {
                 String fileName = name.substring(name.lastIndexOf("/") + 1, name.lastIndexOf("."));
-                if (name.contains("/item/")) {
-                    List<String> list = gson.fromJson(JarUtil.getInstance().readFileFromUrl(buffered), new TypeToken<List<String>>() {
+                if (name.contains("item/")) {
+                    String text = JarUtil.getInstance().readFileFromUrl(buffered);
+                    PineappleTags.LOGGER.info(text);
+                    List<String> list = gson.fromJson(text, new TypeToken<List<String>>() {
                     }.getType());
                     if (list != null) {
+                        PineappleTags.LOGGER.info("create tag by json: " + fileName);
                         TagsManager.manager().registerTag(fileName, getItems(list));
                     }
-                } else if (name.contains("/block/")) {
+                } else if (name.contains("block/")) {
                     List<String> list = gson.fromJson(JarUtil.getInstance().readFileFromUrl(buffered), new TypeToken<List<String>>() {
                     }.getType());
                     if (list != null) {
+                        PineappleTags.LOGGER.info("create tag by json: " + fileName);
                         TagsManager.manager().registerTag(fileName, getBlocks(list));
                     }
                 }
@@ -47,7 +53,11 @@ class JsonHelper {
             }
         }
 
-        return (Item[]) items.toArray();
+        Item[] array = new Item[items.size()];
+        for (int i = 0; i < items.size(); i ++)
+            array[i] = items.get(i);
+
+        return array;
     }
 
     private static Block[] getBlocks(List<String> s) {
@@ -60,6 +70,10 @@ class JsonHelper {
             }
         }
 
-        return (Block[]) blocks.toArray();
+        Block[] array = new Block[blocks.size()];
+        for (int i = 0; i < blocks.size(); i ++)
+            array[i] = blocks.get(i);
+
+        return array;
     }
 }
