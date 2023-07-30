@@ -91,7 +91,7 @@ public class TagsManager {
      * Get the tags from an Object if it has. <br />
      * 取得物件的标签，如果他有的话。
      * */
-    public List<String> geTagsFromObjects(Object item) {
+    public List<String> getTagsFromObjects(Object item) {
         List<String> l = Lists.newArrayList();
         for (String s : tags.keySet())
             if (tags.get(s).has(item))
