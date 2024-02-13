@@ -4,7 +4,6 @@ import club.someoneice.togocup.recipebook.JarUtil;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import cpw.mods.fml.common.Loader;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 

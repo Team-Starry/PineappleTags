@@ -3,13 +3,15 @@ package club.someoneice.togocup.tags;
 import com.google.common.collect.Lists;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 
 import java.util.Collection;
 import java.util.List;
 
+@SuppressWarnings({"unchecked", "unused"})
 public class Tag<E> {
-    private final List<E> items;
+    protected final List<E> items;
     public final String name;
 
     Tag(String name) {
@@ -73,8 +75,13 @@ public class Tag<E> {
      * 从标签到矿物辞典。不会实时同步，若发生更新必须重新申明。
      * */
     public boolean asOreDict() {
+        if (this.items.isEmpty()) return false;
         if (this.items.get(0) instanceof Item) {
             for (Item item : (List<Item>) items)
+                OreDictionary.registerOre(name, item);
+            return true;
+        } else if (this.items.get(0) instanceof ItemStack) {
+            for (ItemStack item : (List<ItemStack>) items)
                 OreDictionary.registerOre(name, item);
             return true;
         } else if (this.items.get(0) instanceof Block) {

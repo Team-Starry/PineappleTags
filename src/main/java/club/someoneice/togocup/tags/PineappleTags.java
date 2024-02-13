@@ -13,7 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-@Mod(modid = "pieapple_tags")
+@Mod(modid = "pineapple_tags")
 public class PineappleTags {
     public static final Logger LOGGER = LogManager.getLogger("pineapple_tags");
 

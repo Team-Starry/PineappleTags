@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings({"unchecked", "unused"})
 public class TagsManager {
     private static final Map<String, Tag<?>> tags = Maps.newConcurrentMap();
     public static final TagsManager INSTANCE = new TagsManager();
@@ -19,6 +20,27 @@ public class TagsManager {
 
     public static TagsManager manager() {
         return INSTANCE;
+    }
+
+    /**
+     * Create a new ItemStack Tag or take a Tag from tags pool.  <br />
+     * 创建新ItemStack标签，或从标签池中取得标签。 
+     * */
+    public ItemStackTag registerItemStackTag(String name, @Nullable ItemStack ... items) {
+        if (tags.containsKey(name)) {
+            try {
+                ItemStackTag tag = (ItemStackTag) tags.get(name);
+                if (items != null) tag.addAll(Arrays.asList(items));
+                return tag;
+            } catch (Exception e) {
+                PineappleTags.LOGGER.error("One of mod's Tags " + name + " is broken when create because the type is not same.");
+            }
+        }
+
+        ItemStackTag tag = new ItemStackTag(name);
+        if (items != null) tag.addAll(Arrays.asList(items));
+        tags.put(name, tag);
+        return tag;
     }
 
     /**

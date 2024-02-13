@@ -1,16 +1,16 @@
 [
-{
-  "modid": "pineapple_tag",
-  "name": "PineappleTag",
-  "description": "PineappleTag",
-  "version": "1.0",
-  "mcversion": "${mcversion}",
-  "url": "",
-  "updateUrl": "",
-  "authorList": ["Someoneice"],
-  "credits": "",
-  "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
-}
+  {
+    "modid": "pineapple_tag",
+    "name": "PineappleTag",
+    "description": "PineappleTag",
+    "version": "1.4",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["Someoneice"],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
 ]
