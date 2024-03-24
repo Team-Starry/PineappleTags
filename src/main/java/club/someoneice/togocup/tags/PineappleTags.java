@@ -20,8 +20,7 @@ public class PineappleTags {
     @Mod.EventHandler
     public void commonInit(FMLInitializationEvent event) {
         registryEvent(this);
-        if (Loader.isModLoaded("pineapple_recipe_book"))
-            JsonHelper.readFromJson();
+        if (Loader.isModLoaded("pineapple_recipe_book")) JsonHelper.readFromJson();
     }
 
     private void registryEvent(Object eventObj) {

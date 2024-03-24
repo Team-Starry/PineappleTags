@@ -1,17 +1,8 @@
 buildscript {
     repositories {
         mavenCentral()
-        maven {
-            url = "https://jcenter.bintray.com/"
-        }
-        maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net/"
-        }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
+        maven { url "https://files.minecraftforge.net/maven"                    }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/"  }
     }
     dependencies {
         classpath ('com.anatawa12.forge:ForgeGradle:1.2-1.1.+') {
@@ -38,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly "club.someoneice.togocup.recipebook:PineappleRecipeBook:1.0"
+    implementation "club.someoneice.togocup.recipebook:PineappleRecipeBook:1.0"
 }
 
 processResources{
@@ -47,16 +38,6 @@ processResources{
 
     filesMatching("mcmod.info") {
         expand 'version': project.version, 'mcversion': project.minecraft.version
-    }
-
-    tasks.register('sourcesJar', Jar) {
-        dependsOn classes
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    artifacts {
-        archives sourcesJar
     }
 }
 
