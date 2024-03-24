@@ -3,7 +3,7 @@
     "modid": "pineapple_tag",
     "name": "PineappleTag",
     "description": "PineappleTag",
-    "version": "1.4",
+    "version": "${version}",
     "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",

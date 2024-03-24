@@ -25,12 +25,15 @@ apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
 
-version = "1.4"
+version = "1.5"
 group= "club.someoneice.togocup.pineapple_tag"
 archivesBaseName = "PineappleTag"
 
 repositories {
-    maven { url "http://maven.snowlyicewolf.club/" }
+    maven {
+        url "http://maven.snowlyicewolf.club/"
+        allowInsecureProtocol true
+    }
 }
 
 dependencies {
@@ -38,17 +41,20 @@ dependencies {
 }
 
 processResources{
-    duplicatesStrategy = 'include'
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version, 'name':project.archivesBaseName
+    filesMatching("mcmod.info") {
+        expand 'version': project.version, 'mcversion': project.minecraft.version
     }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives sourcesJar
     }
 }
 

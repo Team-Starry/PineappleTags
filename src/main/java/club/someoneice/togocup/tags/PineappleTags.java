@@ -31,12 +31,9 @@ public class PineappleTags {
 
     @SubscribeEvent
     public void itemTooltipEvent(ItemTooltipEvent event) {
-        if (event.showAdvancedItemTooltips && event.itemStack != null) {
-            ItemStack item = event.itemStack;
-            List<String> tags = TagsManager.manager().getTagsFromObjects(item.getItem());
-            if (!tags.isEmpty()) {
-                event.toolTip.add("Tags: " + tags);
-            }
-        }
+        if (!event.showAdvancedItemTooltips || event.itemStack == null) return;
+        ItemStack item = event.itemStack;
+        List<String> tags = TagsManager.manager().getTagsFromObjects(item.getItem());
+        if (!tags.isEmpty()) event.toolTip.add("Tags: " + tags);
     }
 }
