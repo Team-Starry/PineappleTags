@@ -47,4 +47,8 @@ public class ItemStackTag extends Tag<ItemStack> {
             if (item.getClass().isAssignableFrom(obj.getItem().getClass())) return true;
         return false;
     }
+
+    public Ingredient toIngredient() {
+        return new Ingredient(this);
+    }
 }
