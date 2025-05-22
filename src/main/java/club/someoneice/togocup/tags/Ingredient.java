@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -20,25 +21,25 @@ public class Ingredient {
 
     public Ingredient(Tag<? extends Item> obj) {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-        obj.getList().forEach(it -> builder.add(new ItemStack(it)));
+        obj.getList().stream().map(ItemStack::new).forEach(builder::add);
         this.obj = builder.build();
     }
 
     public Ingredient(ItemStackTag obj) {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-        obj.getList().forEach(it -> builder.add(it.copy()));
+        obj.getList().stream().map(Ingredient::copyItemStack).forEach(builder::add);
         this.obj = builder.build();
     }
 
     public Ingredient(ItemStack[] obj) {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-        Arrays.stream(obj).forEach(it -> builder.add(it.copy()));
+        Arrays.stream(obj).map(Ingredient::copyItemStack).forEach(builder::add);
         this.obj = builder.build();
     }
 
     public Ingredient(Collection<ItemStack> obj) {
         ImmutableList.Builder<ItemStack> builder = ImmutableList.builder();
-        obj.forEach(it -> builder.add(it.copy()));
+        obj.stream().map(Ingredient::copyItemStack).forEach(builder::add);
         this.obj = builder.build();
     }
 
@@ -65,5 +66,14 @@ public class Ingredient {
         ImmutableList<ItemStack> list1 = this.getObj();
         ImmutableList<ItemStack> list2 = ingredient.getObj();
         return list1.size() == list2.size() && list1.equals(list2);
+    }
+
+    private static ItemStack copyItemStack(ItemStack obj) {
+        ItemStack itemstack = new ItemStack(obj.getItem(), obj.stackSize, obj.getItemDamage());
+        if (obj.stackTagCompound != null) {
+            itemstack.stackTagCompound = (NBTTagCompound) obj.stackTagCompound.copy();
+        }
+
+        return itemstack;
     }
 }
